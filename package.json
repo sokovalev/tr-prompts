@@ -1,0 +1,21 @@
+{
+  "name": "tr-prompts",
+  "version": "1.0.0",
+  "description": "TypeScript script for processing text files with Ollama",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "nodemon": "^3.1.10",
+    "ollama": "^0.5.17",
+    "tsc": "^2.0.4",
+    "undici": "^7.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
