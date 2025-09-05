@@ -1,4 +1,5 @@
 import { Ollama } from "ollama";
+
 import { Agent } from "undici";
 
 const noTimeoutFetch = (
@@ -9,7 +10,10 @@ const noTimeoutFetch = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return fetch(input, {
     ...someInit,
-    dispatcher: new Agent({ keepAliveMaxTimeout: 60e3 }) as any,
+    dispatcher: new Agent({
+      headersTimeout: 60e3,
+      keepAliveMaxTimeout: 60e3,
+    }) as any,
   });
 };
 

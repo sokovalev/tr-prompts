@@ -4,14 +4,17 @@
   "description": "TypeScript script for processing text files with Ollama",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "process-db": "ts-node src/processDatabase.ts"
   },
   "dependencies": {
+    "@types/sqlite3": "^5.1.0",
     "dotenv": "^17.2.1",
     "nodemon": "^3.1.10",
     "ollama": "^0.5.17",
+    "sqlite3": "^5.1.7",
     "tsc": "^2.0.4",
-    "undici": "^7.15.0"
+    "undici": "^6.20.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
