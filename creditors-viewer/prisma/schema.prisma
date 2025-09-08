@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model credit_requirement {
+  id                 Int     @id @default(autoincrement())
+  fio_zapolnyaushego String?
+  link_osn_akt       String?
+  sostoyanie         String?
+  name_creditor      String?
+  inn                String?
+  status             String?
+  ocherednost        String?
+  vid_objazatelstva  String?
+  razmer             String?
+  osnovanie          String?
+  izmen_akty         String?
+  otmetki_izmeneniy  String?
+  pdf_text           String?
+  is_processed       Int?    @default(0)
+  llm_response       String?
+  llm_ocherednost    String?
+}
