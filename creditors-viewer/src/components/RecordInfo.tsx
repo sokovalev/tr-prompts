@@ -1,12 +1,9 @@
 import { memo } from "react";
 import zip from "lodash/zip";
 import { credit_requirement } from "@/generated/prisma";
+import { getRubFormatter } from "@/utils/getRubFormatter";
 
-const formatter = new Intl.NumberFormat("ru-RU", {
-  style: "currency",
-  currency: "RUB",
-});
-
+const formatter = getRubFormatter();
 const tryFormatRazmer = (value?: string) => {
   if (!value) return value;
   const number = Number(value.replaceAll(" ", "").replaceAll(",", "."));
@@ -31,16 +28,17 @@ export const RecordInfo = memo(
 
     return (
       <ul>
+        <li>{record.status}</li>
         {payouts.map(([ocherednost, razmer, vid_objazatelstva, osnovanie]) => (
           <li key={ocherednost + (razmer || "").toString()}>
-            {[
-              ocherednost,
-              tryFormatRazmer(razmer),
-              vid_objazatelstva,
-              osnovanie,
-            ]
-              .filter(Boolean)
-              .join(" – ")}
+            <b>{ocherednost}</b> - {tryFormatRazmer(razmer)}
+            {!short && (
+              <>
+                <span> - {vid_objazatelstva}</span>
+                <br />
+                <p>{osnovanie}</p>
+              </>
+            )}
           </li>
         ))}
       </ul>

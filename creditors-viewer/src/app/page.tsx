@@ -6,11 +6,14 @@ export default async function RecordsPage({
 }: {
   searchParams: {
     page: string;
+    filterNotMatching: string;
   };
 }) {
-  const { page } = await searchParams;
+  const { page, filterNotMatching } = await searchParams;
+  const shouldFilterNotMatching = filterNotMatching === "true";
   const { records, totalPages, currentPage, totalCount } = await getRecords({
     page: parseInt(page),
+    shouldFilterNotMatching,
   });
 
   return (
@@ -23,6 +26,7 @@ export default async function RecordsPage({
           records={records}
           totalPages={totalPages}
           currentPage={currentPage}
+          filterNotMatching={shouldFilterNotMatching}
         />
         <p className="text-sm text-gray-500 text-center">Total: {totalCount}</p>
       </main>

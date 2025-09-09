@@ -21,10 +21,12 @@ export function Pagination({
         <PaginationItem>
           <PaginationPrevious
             onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-          />
+          >
+            Пред.
+          </PaginationPrevious>
         </PaginationItem>
         <PaginationItem className="text-sm">
-          Page {currentPage} of {totalPages}
+          Страница {currentPage} из {totalPages}
         </PaginationItem>
 
         <PaginationItem>
@@ -32,7 +34,9 @@ export function Pagination({
             onClick={() =>
               currentPage < totalPages && onPageChange(currentPage + 1)
             }
-          />
+          >
+            След.
+          </PaginationNext>
         </PaginationItem>
       </PaginationContent>
     </PaginationComponent>

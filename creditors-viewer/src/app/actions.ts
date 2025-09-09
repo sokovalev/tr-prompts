@@ -5,7 +5,11 @@ import { prisma } from "@/lib/prisma";
 
 const DEFAULT_PER_PAGE = 10;
 
-export async function getRecords(params: { page?: number; perPage?: number }) {
+export async function getRecords(params: {
+  page?: number;
+  perPage?: number;
+  shouldFilterNotMatching?: boolean;
+}) {
   const page = params.page || 1;
   const perPage = params.perPage ?? DEFAULT_PER_PAGE;
 
@@ -16,8 +20,16 @@ export async function getRecords(params: { page?: number; perPage?: number }) {
       { ocherednost: { not: "" } },
       { razmer: { not: null } },
       { razmer: { not: "" } },
-      // { llm_response: { not: null } },
-      // { llm_response: { not: "" } },
+      ...(params.shouldFilterNotMatching
+        ? [
+            {
+              llm_ocherednost: {
+                not: { equals: prisma.credit_requirement.fields.ocherednost },
+              },
+            },
+            { llm_ocherednost: { not: { equals: "" } } },
+          ]
+        : []),
     ],
   };
 

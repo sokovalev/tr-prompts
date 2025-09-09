@@ -4,6 +4,7 @@ import { getRecord } from "./actions";
 import omit from "lodash/omit";
 import { RecordInfo } from "@/components/RecordInfo";
 import { credit_requirement } from "@/generated/prisma";
+import { LLMResponse } from "@/components/LLMResponse";
 
 export default async function RecordPage({
   params,
@@ -75,9 +76,14 @@ export default async function RecordPage({
         </span>
 
         <span className="font-bold">Очередность</span>
-        <span>
-          <RecordInfo record={record as credit_requirement} />
-        </span>
+        <div className="flex flex-row gap-2">
+          <div className="flex-1">
+            <RecordInfo record={record as credit_requirement} />
+          </div>
+          <div className="flex-1">
+            <LLMResponse response={record.llm_response} />
+          </div>
+        </div>
 
         <span className="font-bold">Разбор LLM</span>
         <span>

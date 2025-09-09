@@ -10,37 +10,64 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Pagination } from "@/components/Pagination";
 import { credit_requirement } from "@/generated/prisma";
 import { RecordInfo } from "@/components/RecordInfo";
+import { LLMResponse } from "@/components/LLMResponse";
 
 export function RecordsTable({
   records,
   totalPages,
   currentPage,
+  filterNotMatching,
 }: {
   records: credit_requirement[];
   totalPages: number;
   currentPage: number;
+  filterNotMatching: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const handlePageChange = (nextPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", nextPage.toString());
     router.push(`?${params.toString()}`);
   };
 
+  const handleFilterNotMatchingChange = (checked: boolean) => {
+    const params = new URLSearchParams(searchParams);
+    if (checked) {
+      params.set("filterNotMatching", "true");
+    } else {
+      params.delete("filterNotMatching");
+    }
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <div className="flex flex-col gap-2">
+      <div className="flex flex-row items-center gap-2">
+        <Checkbox
+          id="filter-not-matching"
+          defaultChecked={filterNotMatching}
+          onCheckedChange={handleFilterNotMatchingChange}
+        />
+        <Label htmlFor="filter-not-matching">
+          Показать только несоответствующие
+        </Label>
+      </div>
+
       <Table className="w-full max-w-full">
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Ocherednost</TableHead>
-            <TableHead>LLM Response</TableHead>
-            <TableHead className="w-10 text-center">Actions</TableHead>
+            <TableHead>Имя кредитора</TableHead>
+            <TableHead>Оригинальная очередность</TableHead>
+            <TableHead>Ответ LLM</TableHead>
+            <TableHead />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -54,11 +81,15 @@ export function RecordsTable({
                 <RecordInfo record={record} short />
               </TableCell>
               <TableCell className="whitespace-normal">
-                {record.llm_response}
+                {record.llm_response ? (
+                  <LLMResponse response={record.llm_response} short />
+                ) : (
+                  <span className="italic">Отсутствует</span>
+                )}
               </TableCell>
               <TableCell className="w-10 text-center">
                 <Button asChild>
-                  <Link href={`/records/${record.id}`}>View</Link>
+                  <Link href={`/records/${record.id}`}>Просмотр</Link>
                 </Button>
               </TableCell>
             </TableRow>
@@ -73,7 +104,7 @@ export function RecordsTable({
         />
 
         <div className="flex flex-row items-center gap-2">
-          <p>Go to page:</p>
+          <p>Перейти на страницу:</p>
           <input
             type="number"
             className="w-32 border border-gray-300 rounded-md p-1"
