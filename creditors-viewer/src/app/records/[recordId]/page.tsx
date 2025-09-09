@@ -51,7 +51,9 @@ export default async function RecordPage({
         <span className="font-bold">Ссылка на акт</span>
         <span>
           {record.link_osn_akt ? (
-            <Link href={record.link_osn_akt}>{record.link_osn_akt}</Link>
+            <Link href={record.link_osn_akt} target="_blank">
+              {record.link_osn_akt}
+            </Link>
           ) : (
             <span className="italic">Нет ссылки на акт</span>
           )}
