@@ -9,7 +9,9 @@
     "lint": "eslint",
     "db:generate": "prisma generate",
     "db:pull": "prisma db pull",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
