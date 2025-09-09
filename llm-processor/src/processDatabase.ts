@@ -41,8 +41,6 @@ export class DBProcessor {
         )
         .all();
 
-      console.log(entriesWithPDFTextIds);
-
       let processed = 0;
       let matching = 0;
       let errored = 0;
@@ -76,7 +74,7 @@ export class DBProcessor {
             .prepare(
               "UPDATE credit_requirement SET llm_response = ?, llm_ocherednost = ? WHERE id = ?"
             )
-            .run(llmResponse, getOcherednost(responseJson), entry.id);
+            .run(llmResponse, getOcherednost(responseJson), id);
         } catch (error) {
           errored += 1;
           console.error("❌ Error processing entry:", error);
